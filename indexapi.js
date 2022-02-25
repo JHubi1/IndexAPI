@@ -79,7 +79,7 @@ var IndexAPI = {
             set: function(newTitle){
                 document.title = newTitle;
             },
-            //Beta end
+            //Beta End
         },
     },
 }
