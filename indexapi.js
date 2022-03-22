@@ -5,15 +5,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //favicon.js initialized?
-if(typeof favicon.change != 'undefined' && typeof favicon.change == 'function'){
-//if(typeof favicon.change != 'undefined' && typeof favicon.change == 'function'){
-    console.log('JH-Web IndexAPI: favicon.js is initialized!');
+if(typeof favicon.animate != 'undefined' && typeof favicon.animate == 'function'){
+    console.log('JH-Web IndexAPI: "favicon.js" is initialized!');
 } else {
     console.error('JH-Web IndexAPI: favicon.js is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/favicon.js/dist/favicon.min.js"></script> <!-- Documentation at: https://github.com/dlom/favicon.js -->');
 }
 //SweetAlerts
 if(typeof swal != 'undefined' && typeof swal == 'function'){
-    console.log('JH-Web IndexAPI: SweetAlerts is initialized!');
+    console.log('JH-Web IndexAPI: "SweetAlerts" is initialized!');
 } else {
     console.error('JH-Web IndexAPI: SweetAlerts is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!-- Documentation at: https://sweetalert.js.org/guides/ -->');
 }
@@ -102,7 +101,6 @@ var IndexAPI = {
                 document.title = newTitle;
             },
         },
-        //ALPHA
         icon: {
             set: function(newIcon){
                 favicon.change(newIcon);
@@ -111,7 +109,6 @@ var IndexAPI = {
                 favicon.change("https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=16&url=" + iconUrl);
             }
         },
-        //ALPHA END
     },
     license: {
         domain: function(allowedDomains, block){
@@ -130,20 +127,18 @@ var IndexAPI = {
                 console.error("JH-Web IndexAPI: 'allowedDomains' is not correctly set!");
             };
         },
-        //BETA
+        //ALPHA ; Don't use!
         licenseKeys: {
-                $74543253679257248329: true
-            },
-            key: function(key){
+            $74543253679257248329: true
+        },
+        key: function(key){
             var path = "this.licenseKeys.$" + key;
-            if(path + key == true){
-                document.write("<br>");
-                document.write("True!")
+            if(path){
+                swal("True!")
             }else{
-                document.write("<br>");
-                document.write("False!")
+                swal("False!")
             }
         }
-        //BETA END
+        //ALPHA END
     }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JH-Web IndexAPI</title>
+        <script src="https://unpkg.com/favicon.js/dist/favicon.min.js"></script> <!-- Documentation at: https://github.com/dlom/favicon.js -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!-- Documentation at: https://sweetalert.js.org/guides/ -->
+        <script src="indexapi.js"></script>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>IndexAPI > Demo-Site</h1>
+        <ol>
+            <!-- <li><button onclick="IndexAPI.('A simple test text!')">Command: IndexAPI.</button></li> -->
+            <li><button onclick="IndexAPI.log.info('A simple test text!')">Command: IndexAPI.log.info()</button></li>
+            <li><button onclick="IndexAPI.log.error('A simple test text!')">Command: IndexAPI.log.error()</button></li>
+            <li><button onclick="IndexAPI.log.warn('A simple test text!')">Command: IndexAPI.log.warn()</button></li>
+            <li><button onclick="IndexAPI.confirm.run('A simple test text!')">Command: IndexAPI.confirm.run()</button></li>
+            <li><button onclick="IndexAPI.confirm.extreme('A simple test text!')">Command: IndexAPI.confirm.extreme()</button></li>
+            <li><button onclick="IndexAPI.info.print('A simple test text!')">Command: IndexAPI.info.print()</button></li>
+            <li><button onclick="IndexAPI.info.printFine('A simple test text!')">Command: IndexAPI.info.printFine()</button></li>
+            <li><button onclick="IndexAPI.lockSite.run('A simple test text!')">Command: IndexAPI.lockSite.run()</button> (You have to close your browser or the website to access again!)</li>
+            <li><button onclick="IndexAPI.lockSite.password('12345')">Command: IndexAPI.lockSite.password()</button> (The example password is: 12345)</li>
+            <li><button onclick="IndexAPI.site.title.set('A simple test text!'); swal('Complete!', 'There is now a new title in the title bar!', 'success')">Command: IndexAPI.site.title.set()</button></li>
+            <li><button onclick="IndexAPI.site.icon.set('google_favicon.ico'); swal('Complete!', 'In the title bar is now (actually) an icon!', 'success')">Command: IndexAPI.site.icon.set()</button></li>
+            <li><button onclick="IndexAPI.site.icon.url('http://wikipedia.org/'); swal('Complete!', 'In the title bar is now (actually) an icon!', 'success')">Command: IndexAPI.site.icon.url()</button></li>
+            <li><button onclick="IndexAPI.license.domain(['jh-web.xyz', 'github.com', 'githubusercontent.com'])">Command: IndexAPI.license.domain([])</button></li>
+            <li><button onclick="IndexAPI.license.key('74543253679257248329')">Command: IndexAPI.license.key()</button> (//ALPHA ; DOES NOT WORK!)</li>
+        </ol>
+    </body>
+</html>
