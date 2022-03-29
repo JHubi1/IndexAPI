@@ -4,17 +4,40 @@
 //                                                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//favicon.js initialized?
-if(typeof favicon.animate != 'undefined' && typeof favicon.animate == 'function'){
-    console.log('JH-Web IndexAPI: "favicon.js" is initialized!');
-} else {
-    console.error('JH-Web IndexAPI: favicon.js is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/favicon.js/dist/favicon.min.js"></script> <!-- Documentation at: https://github.com/dlom/favicon.js -->');
-}
-//SweetAlerts
-if(typeof swal != 'undefined' && typeof swal == 'function'){
-    console.log('JH-Web IndexAPI: "SweetAlerts" is initialized!');
-} else {
-    console.error('JH-Web IndexAPI: SweetAlerts is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!-- Documentation at: https://sweetalert.js.org/guides/ -->');
+
+var js;
+var jsComment;
+
+//favicon.js is initializing...
+js = document.createElement('script');
+js.setAttribute('src', 'https://unpkg.com/favicon.js/dist/favicon.min.js');
+jsComment = document.createComment(' Documentation at: https://github.com/dlom/favicon.js ');
+js.appendChild(jsComment);
+document.getElementsByTagName('head')[0].appendChild(js);
+
+//SweetAlerts is initializing...
+js = document.createElement('script');
+js.setAttribute('src', 'https://unpkg.com/sweetalert/dist/sweetalert.min.js');
+jsComment = document.createComment(' Documentation at: https://sweetalert.js.org/guides/ ');
+js.appendChild(jsComment);
+document.getElementsByTagName('head')[0].appendChild(js);
+
+
+console.log('JH-Web IndexAPI: "IndexAPI" is initialized!');
+
+window.onload = function(){
+    //favicon.js initialized?
+    if(typeof favicon.animate != 'undefined' && typeof favicon.animate == 'function'){
+        console.log('JH-Web IndexAPI: "favicon.js" is initialized!');
+    } else {
+        console.error('JH-Web IndexAPI: favicon.js is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/favicon.js/dist/favicon.min.js"></script> <!-- Documentation at: https://github.com/dlom/favicon.js -->');
+    }
+    //SweetAlerts initialized?
+    if(typeof swal != 'undefined' && typeof swal == 'function'){
+        console.log('JH-Web IndexAPI: "SweetAlerts" is initialized!');
+    } else {
+        console.error('JH-Web IndexAPI: SweetAlerts is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!-- Documentation at: https://sweetalert.js.org/guides/ -->');
+    }
 }
 
 //Don't use alpha or beta features if you don't know what you're doing! This functions are usually not ready yet. You could also use deprecated functions, but that is not recommended!
