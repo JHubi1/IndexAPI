@@ -40,10 +40,30 @@ window.onload = function(){
     }
 }
 
+//!!! CODE !!!
 //Don't use alpha or beta features if you don't know what you're doing! This functions are usually not ready yet. You could also use deprecated functions, but that is not recommended!
-var IndexAPI = {
-    version: "1.0 Eagle",
+const IndexAPI = {
+    version: "0.1 Alpha",
     author: "Jakob Hubert",
+    configure: {
+        isFileSetted: false,
+        file: function(sourceUrl){
+            var js;
+            //Remove
+            if(document.getElementById('indexapi-configure') != undefined){
+                js = document.getElementById('indexapi-configure');
+                js.remove();
+            };
+            //Add
+            js = document.createElement('script');
+            js.setAttribute('src', sourceUrl);
+            js.setAttribute('id', 'indexapi-configure');
+            jsComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
+            js.appendChild(jsComment);
+            document.getElementsByTagName('head')[0].appendChild(js);
+            IndexAPI.configure.isFileSetted = true;
+        }
+    },
     log: {
         info: function(error){
             console.log("JH-Web IndexAPI: " + error);
@@ -93,11 +113,16 @@ var IndexAPI = {
         }
     },
     info: {
+        title: "JH-Web IndexAPI is online!",
+        text: "Thank you for running and showing this dialogue!\nXOXO Jakob\n",
         print: function(){
-            alert("JH-Web IndexAPI is online!\nThank you for running and showing this dialogue!\nXOXO Jakob");
+            alert(IndexAPI.info.title + "\n" + IndexAPI.info.text);
+            if(IndexAPI.configure.isFileSetted == true && IndexAPIConfigurations.modifier != ""){
+                alert("Info:\nThis version of IndexAPI has been modified (in our configuration file).\nModifier: " + IndexAPIConfigurations.modifier);
+            };
         },
-        printFine: function(){
-            swal("JH-Web IndexAPI is online!", "Thank you for running and showing this dialogue!\nXOXO Jakob", "info")
+        printFine: function(){ //Not finished!
+            swal(IndexAPI.info.title, IndexAPI.info.text, "info");
         },
     },
     lockSite: {
