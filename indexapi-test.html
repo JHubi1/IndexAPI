@@ -9,6 +9,25 @@
             body {
                 font-family: Arial, Helvetica, sans-serif;
             }
+            .alpha, .beta {
+                border-style: dotted;
+                border-color: lightcoral;
+                color: darkgrey;
+            }
+            #console {
+                background-color: darkgray;
+                color: white;
+                font-family: Terminal, monospace;
+                border-style: solid;
+                border-color: black;
+                border-radius: 5px;
+                height: 500px;
+                width: 100%;
+                overflow-y: scroll;
+            }
+            #console-test {
+                color: lightgrey;
+            }
         </style>
     </head>
     <body>
@@ -28,7 +47,16 @@
             <li><button onclick="IndexAPI.site.icon.set('google_favicon.ico'); swal('Complete!', 'In the title bar is now (actually) an icon!', 'success')">Command: IndexAPI.site.icon.set()</button></li>
             <li><button onclick="IndexAPI.site.icon.url('http://wikipedia.org/'); swal('Complete!', 'In the title bar is now (actually) an icon!', 'success')">Command: IndexAPI.site.icon.url()</button></li>
             <li><button onclick="IndexAPI.license.domain(['jh-web.xyz', 'github.com', 'githubusercontent.com'])">Command: IndexAPI.license.domain([])</button></li>
-            <li><button onclick="IndexAPI.license.key('74543253679257248329')">Command: IndexAPI.license.key()</button> (//ALPHA ; DOES NOT WORK!)</li>
+            <li class="alpha"><button onclick="IndexAPI.license.key('74543253679257248329')">Command: IndexAPI.license.key()</button> (//ALPHA ; DOES NOT WORK!)</li>
         </ol>
+        Console:
+        <div id="console">
+            <script>
+                IndexAPI.console.add("console");
+                IndexAPI.console.addItem("Test", "console-test");
+                //IndexAPI.console.addItemIndexAPI("Test");
+            </script>
+        </div>
+        <p></p>
     </body>
 </html>

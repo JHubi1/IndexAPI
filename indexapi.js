@@ -23,9 +23,8 @@ js.appendChild(jsComment);
 document.getElementsByTagName('head')[0].appendChild(js);
 
 
-console.log('JH-Web IndexAPI: "IndexAPI" is initialized!');
-
 window.onload = function(){
+    console.log('JH-Web IndexAPI: "IndexAPI" is initialized!');
     //favicon.js initialized?
     if(typeof favicon.animate != 'undefined' && typeof favicon.animate == 'function'){
         console.log('JH-Web IndexAPI: "favicon.js" is initialized!');
@@ -62,6 +61,45 @@ const IndexAPI = {
             js.appendChild(jsComment);
             document.getElementsByTagName('head')[0].appendChild(js);
             IndexAPI.configure.isFileSetted = true;
+        }
+    },
+    console: {
+        element: "",
+        add: function(id){
+            if(typeof id != undefined && document.getElementById(id) != undefined){
+                IndexAPI.console.element = id;
+                IndexAPI.console.addItem("IndexAPI: Version " + IndexAPI.version + "; by " + IndexAPI.author);
+                IndexAPI.console.addItem("IndexAPI (c) 2022 by JH-Web is licensed under CC BY-ND 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/");
+                if(IndexAPIConfigurations.modifier != ""){
+                    IndexAPI.console.addItem("This version of IndexAPI was changed by " + IndexAPIConfigurations.modifier + " in our configuration file! New license: " + IndexAPIConfigurations.license);
+                }
+            }
+        },
+        //Add with: 'IndexAPI.console.add("console");'
+        //Add with: 'IndexAPI.console.addItem("Test", "console-test");'
+        //Easyer: 'IndexAPI.console.addItem("Test");'
+        addItem: function(text, div){
+            if(IndexAPI.console.element != ""){
+                var element;
+                var id = IndexAPI.console.element
+                element = document.getElementById(id);
+                var elementAdd = document.createElement("div");
+                if(div != undefined){
+                    elementAdd.setAttribute('id', div);
+                }
+                var elementAddContent = document.createTextNode(text)
+                elementAdd.appendChild(elementAddContent)
+                var elementAddComment = document.createComment("");
+                elementAdd.appendChild(elementAddComment);
+                var elementAdd2 = document.createElement("br");
+                element.appendChild(elementAdd);
+                element.appendChild(elementAdd2);
+            }else{
+                console.error("Error: Please set with the function 'IndexAPI.console.add([ID OF CONSOLE ELEMENT]);' the element that represents the console!\nHere is your Info: \n" + text)
+            }
+        },
+        addItemIndexAPI: function(text){
+            IndexAPI.console.addItem("JH-Web IndexAPI: " + text);
         }
     },
     log: {
