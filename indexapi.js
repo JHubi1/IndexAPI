@@ -24,30 +24,35 @@ document.getElementsByTagName('head')[0].appendChild(js);
 
 
 window.onload = function(){
-    console.log('JH-Web IndexAPI: "IndexAPI" is initialized!');
+    IndexAPI.log.info('"IndexAPI" is initialized!');
     //favicon.js initialized?
     if(typeof favicon.animate != 'undefined' && typeof favicon.animate == 'function'){
-        console.log('JH-Web IndexAPI: "favicon.js" is initialized!');
+        IndexAPI.log.info('"favicon.js" is initialized!');
     } else {
-        console.error('JH-Web IndexAPI: favicon.js is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/favicon.js/dist/favicon.min.js"></script> <!-- Documentation at: https://github.com/dlom/favicon.js -->');
-    }
+        IndexAPI.log.error('"favicon.js" is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/favicon.js/dist/favicon.min.js"></script> <!-- Documentation at: https://github.com/dlom/favicon.js -->');
+    };
     //SweetAlerts initialized?
     if(typeof swal != 'undefined' && typeof swal == 'function'){
-        console.log('JH-Web IndexAPI: "SweetAlerts" is initialized!');
+        IndexAPI.log.info('"SweetAlerts" is initialized!');
     } else {
-        console.error('JH-Web IndexAPI: SweetAlerts is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!-- Documentation at: https://sweetalert.js.org/guides/ -->');
-    }
+        IndexAPI.log.error('"SweetAlerts" is not initialized yet! Some functions will not work properly as a result. Please enter the following code before initializing this code: \n <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!-- Documentation at: https://sweetalert.js.org/guides/ -->');
+    };
+    //Is your onLoad-funktion initialized?
+    if(typeof onLoad != 'undefined' && typeof onLoad == 'function'){
+        onLoad();
+    };
 }
 
 //!!! CODE !!!
 //Don't use alpha or beta features if you don't know what you're doing! This functions are usually not ready yet. You could also use deprecated functions, but that is not recommended!
 const IndexAPI = {
     version: "0.1 Alpha",
-    author: "Jakob Hubert",
+    author: "JH-Web",
     configure: {
         isFileSetted: false,
         file: function(sourceUrl){
             var js;
+            var jsComment;
             //Remove
             if(document.getElementById('indexapi-configure') != undefined){
                 js = document.getElementById('indexapi-configure');
@@ -67,12 +72,35 @@ const IndexAPI = {
         element: "",
         add: function(id){
             if(typeof id != undefined && document.getElementById(id) != undefined){
+                var css;
+                var cssComment;
+                var cssContent;
+                //Remove
+                if(document.getElementById('indexapi-style') != undefined){
+                    css = document.getElementById('indexapi-style');
+                    css.remove();
+                };
+                //Add
+                css = document.createElement('style');
+                css.setAttribute('id', 'indexapi-style');
+                cssContent = document.createTextNode('#' + id + '{background-color: darkgray; color: white; font-family: Terminal, monospace; border-style: solid; border-color: black; border-radius: 5px; height: 500px; width: 100%; overflow-y: scroll;}');
+                css.appendChild(cssContent);
+                cssComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
+                css.appendChild(cssComment);
+                document.getElementsByTagName('head')[0].appendChild(css);
+
                 IndexAPI.console.element = id;
+                //Infotext...
                 IndexAPI.console.addItem("IndexAPI: Version " + IndexAPI.version + "; by " + IndexAPI.author);
-                IndexAPI.console.addItem("IndexAPI (c) 2022 by JH-Web is licensed under CC BY-ND 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/");
-                if(IndexAPIConfigurations.modifier != ""){
-                    IndexAPI.console.addItem("This version of IndexAPI was changed by " + IndexAPIConfigurations.modifier + " in our configuration file! New license: " + IndexAPIConfigurations.license);
+                IndexAPI.console.addItem("IndexAPI (c) 2022 by " + IndexAPI.author + " is licensed under CC BY-ND 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/");
+                if(IndexAPI.configure.isFileSetted == true){
+                    IndexAPI.console.addItem("This version of IndexAPI was changed by " + IndexAPIConfigurations.modifier + " in our configuration file! New license: '" + IndexAPIConfigurations.license + "'");
                 }
+                //...until here.
+                return true;
+            }else{
+                IndexAPI.log.error("'IndexAPI.console.add([ID])': 'id' is not set or an object with the name does not exist!")
+                return false;
             }
         },
         //Add with: 'IndexAPI.console.add("console");'
@@ -99,18 +127,18 @@ const IndexAPI = {
             }
         },
         addItemIndexAPI: function(text){
-            IndexAPI.console.addItem("JH-Web IndexAPI: " + text);
-        }
+            IndexAPI.console.addItem(IndexAPI.author + " IndexAPI: " + text);
+        },
     },
     log: {
         info: function(error){
-            console.log("JH-Web IndexAPI: " + error);
+            console.log(IndexAPI.author + " IndexAPI: " + error);
         },
         error: function(error){
-            console.error("JH-Web IndexAPI: " + error);
+            console.error(IndexAPI.author + " IndexAPI: " + error);
         },
         warn: function(error){
-            console.warn("JH-Web IndexAPI: " + error);
+            console.warn(IndexAPI.author + " IndexAPI: " + error);
         },
     },
     confirm: {
@@ -210,7 +238,7 @@ const IndexAPI = {
                     };
                 };
             }else{
-                console.error("JH-Web IndexAPI: 'allowedDomains' is not correctly set!");
+                IndexAPI.log.error("'allowedDomains' is not correctly set!");
             };
         },
         //ALPHA ; Don't use!

@@ -14,17 +14,6 @@
                 border-color: lightcoral;
                 color: darkgrey;
             }
-            #console {
-                background-color: darkgray;
-                color: white;
-                font-family: Terminal, monospace;
-                border-style: solid;
-                border-color: black;
-                border-radius: 5px;
-                height: 500px;
-                width: 100%;
-                overflow-y: scroll;
-            }
             #console-test {
                 color: lightgrey;
             }
@@ -52,9 +41,11 @@
         Console:
         <div id="console">
             <script>
-                IndexAPI.console.add("console");
-                IndexAPI.console.addItem("Test", "console-test");
-                //IndexAPI.console.addItemIndexAPI("Test");
+                function onLoad(){
+                    IndexAPI.console.add("console");
+                    //IndexAPI.console.addItem("Test", "console-test");
+                    //IndexAPI.console.addItemIndexAPI("Test");
+                }
             </script>
         </div>
         <p></p>
