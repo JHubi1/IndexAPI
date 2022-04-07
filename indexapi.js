@@ -70,6 +70,7 @@ const IndexAPI = {
     },
     plugins: {
         isPluginFileSetted: false,
+        isActivated: false,
         path: "",
         configure: {
             plugins: [],
@@ -81,30 +82,38 @@ const IndexAPI = {
                 pluginJsComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
                 pluginJs.appendChild(pluginJsComment);
                 document.getElementsByTagName('head')[0].appendChild(pluginJs);
+                //Container
+                var pluginContainer;
+                var pluginContainerComment;
+                pluginContainer = document.createElement('element');
+                pluginContainer.setAttribute('id', 'indexapi-plugins-container');
+                pluginContainerComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
+                pluginContainer.appendChild(pluginContainerComment);
+                document.getElementsByTagName('head')[0].appendChild(pluginContainer);
+                //Variables
                 IndexAPI.plugins.isPluginFileSetted = true;
                 IndexAPI.plugins.path = path;
             },
             activate: function(verificationCode){
-                if(IndexAPI.plugins.isPluginFileSetted == true){
+                if(IndexAPI.plugins.isPluginFileSetted == true && IndexAPI.plugins.isActivated == false){
                     var authId;
                     var element;
                     if(pluginConfiguration.verificationConfigurations(verificationCode) == true){
                         for(var i = 0; i < pluginConfiguration.activatedPlugins.length; i++){
                             authId = pluginConfiguration.activatedPlugins[i];
-                            if(pluginConfiguration.plugins[authId] != undefined){
-                                for(var ia = 0; ia < pluginConfiguration.plugins.length; ia++){
-                                    if(pluginConfiguration.plugins[ia].id == authId){
-                                        IndexAPI.plugins.configure.plugins.push(pluginConfiguration.plugins[ia].command);
-                                        //
-                                        element = document.createElement("script");
-                                        element.setAttribute("src", IndexAPI.plugins.path + "/" + pluginConfiguration.plugins[ia].mainPath);
-                                        elementComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
-                                        element.appendChild(elementComment);
-                                        document.getElementsByTagName('head')[0].appendChild(element);
-                                    }
-                                };
-                            }
+                            for(var ia = 0; ia < pluginConfiguration.plugins.length; ia++){
+                                if(pluginConfiguration.plugins[ia].id == authId){
+                                    IndexAPI.plugins.configure.plugins.push(pluginConfiguration.plugins[ia].command);
+                                    element = document.createElement("script");
+                                    element.setAttribute("src", IndexAPI.plugins.path + "/" + pluginConfiguration.plugins[ia].mainPath);
+                                    elementComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
+                                    element.appendChild(elementComment);
+                                    document.getElementById('indexapi-plugins-container').appendChild(element);
+                                    element = "";
+                                }
+                            };
                         };
+                        IndexAPI.plugins.isActivated = true;
                     }else{
                         IndexAPI.log.error("A plugin-configuration file is needed for this command! Please add it with this command: IndexAPI.plugins.configure.path([PATH TO YOUR FILE])")
                         return "error";

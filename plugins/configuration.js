@@ -13,6 +13,7 @@ const pluginConfiguration = {
     //Enter here the ID of the plugins you want to use.
     activatedPlugins: [
         '1',
+        '2',
     ],
 
     //Enter the configurations of the plugins.
@@ -23,6 +24,13 @@ const pluginConfiguration = {
             author: "Jakob Hubert",
             mainPath: "permission-api/main.js",
             command: "PermissionAPI",
+        },
+        {
+            id: 2,
+            name: "TestAPI",
+            author: "Jakob Hubert, JH-Web",
+            mainPath: "test-api/main.js",
+            command: "TestAPI",
         },
     ]
 }
