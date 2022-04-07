@@ -2,10 +2,10 @@
 
 You can include this script in any of your websites. just use for it: (But browsers like Chrome block that)
 ```markdown
-<script src="https://raw.githubusercontent.com/JHubi1/IndexAPI/main/indexapi.js"></script>
+<script src="https://jhubi1.github.io/IndexAPI/indexapi.js"></script>
 ```
 
-__**Or:**__ The better way is to download the file, put it on your server and access it from here:
+__**Or:**__ Another way is that you download the file, save it on *your* server and then call it that way:
 ```markdown
 <script src="indexapi.js"></script>
 ```
