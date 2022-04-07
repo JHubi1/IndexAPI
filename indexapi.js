@@ -49,7 +49,7 @@ const IndexAPI = {
     version: "0.1 Alpha",
     author: "JH-Web",
     configure: {
-        isFileSetted: false,
+        isConfigurationFileSetted: false,
         file: function(sourceUrl){
             var js;
             var jsComment;
@@ -65,7 +65,69 @@ const IndexAPI = {
             jsComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
             js.appendChild(jsComment);
             document.getElementsByTagName('head')[0].appendChild(js);
-            IndexAPI.configure.isFileSetted = true;
+            IndexAPI.configure.isConfigurationFileSetted = true;
+        }
+    },
+    plugins: {
+        isPluginFileSetted: false,
+        path: "",
+        configure: {
+            plugins: [],
+            path: function(path){
+                var pluginJs;
+                var pluginJsComment;
+                pluginJs = document.createElement('script');
+                pluginJs.setAttribute('src', path + '/configuration.js');
+                pluginJsComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
+                pluginJs.appendChild(pluginJsComment);
+                document.getElementsByTagName('head')[0].appendChild(pluginJs);
+                IndexAPI.plugins.isPluginFileSetted = true;
+                IndexAPI.plugins.path = path;
+            },
+            activate: function(verificationCode){
+                if(IndexAPI.plugins.isPluginFileSetted == true){
+                    var authId;
+                    var element;
+                    if(pluginConfiguration.verificationConfigurations(verificationCode) == true){
+                        for(var i = 0; i < pluginConfiguration.activatedPlugins.length; i++){
+                            authId = pluginConfiguration.activatedPlugins[i];
+                            if(pluginConfiguration.plugins[authId] != undefined){
+                                for(var ia = 0; ia < pluginConfiguration.plugins.length; ia++){
+                                    if(pluginConfiguration.plugins[ia].id == authId){
+                                        IndexAPI.plugins.configure.plugins.push(pluginConfiguration.plugins[ia].command);
+                                        //
+                                        element = document.createElement("script");
+                                        element.setAttribute("src", IndexAPI.plugins.path + "/" + pluginConfiguration.plugins[ia].mainPath);
+                                        elementComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
+                                        element.appendChild(elementComment);
+                                        document.getElementsByTagName('head')[0].appendChild(element);
+                                    }
+                                };
+                            }
+                        };
+                    }else{
+                        IndexAPI.log.error("A plugin-configuration file is needed for this command! Please add it with this command: IndexAPI.plugins.configure.path([PATH TO YOUR FILE])")
+                        return "error";
+                    }
+                }else{
+                    IndexAPI.log.error("A plugin-configuration file is needed for this command! Please add it with this command: IndexAPI.plugins.configure.path([PATH TO YOUR FILE])")
+                    return "error";
+                }
+            },
+        },
+        get: {
+            name: function(id){
+                return pluginConfiguration.plugins[id].name
+            },
+            author: function(id){
+                return pluginConfiguration.plugins[id].author
+            },
+            mainPath: function(id){
+                return pluginConfiguration.plugins[id].mainPath
+            },
+            command: function(id){
+                return pluginConfiguration.plugins[id].command
+            },
         }
     },
     console: {
@@ -75,6 +137,8 @@ const IndexAPI = {
                 var css;
                 var cssComment;
                 var cssContent;
+                var errortext;
+
                 //Remove
                 if(document.getElementById('indexapi-style') != undefined){
                     css = document.getElementById('indexapi-style');
@@ -83,19 +147,23 @@ const IndexAPI = {
                 //Add
                 css = document.createElement('style');
                 css.setAttribute('id', 'indexapi-style');
-                cssContent = document.createTextNode('#' + id + '{background-color: darkgray; color: white; font-family: Terminal, monospace; border-style: solid; border-color: black; border-radius: 5px; height: 500px; width: 100%; overflow-y: scroll;}');
+                cssContent = document.createTextNode('#' + id + '{background-color: darkgray; color: white; font-family: Terminal, monospace; border-style: solid; border-color: black; border-radius: 5px; overflow-y: scroll;}');
                 css.appendChild(cssContent);
                 cssComment = document.createComment(' Documentation and examples at: https://github.com/JHubi1/IndexAPI ');
                 css.appendChild(cssComment);
                 document.getElementsByTagName('head')[0].appendChild(css);
 
                 IndexAPI.console.element = id;
+                
+                errortext = document.getElementById(id + '_errortext');
+                errortext.remove();
+
                 //Infotext...
                 IndexAPI.console.addItem("IndexAPI: Version " + IndexAPI.version + "; by " + IndexAPI.author);
                 IndexAPI.console.addItem("IndexAPI (c) 2022 by " + IndexAPI.author + " is licensed under CC BY-ND 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by-nd/4.0/");
-                if(IndexAPI.configure.isFileSetted == true){
+                if(IndexAPI.configure.isConfigurationFileSetted == true){
                     IndexAPI.console.addItem("This version of IndexAPI was changed by " + IndexAPIConfigurations.modifier + " in our configuration file! New license: '" + IndexAPIConfigurations.license + "'");
-                }
+                };
                 //...until here.
                 return true;
             }else{
@@ -183,7 +251,7 @@ const IndexAPI = {
         text: "Thank you for running and showing this dialogue!\nXOXO Jakob\n",
         print: function(){
             alert(IndexAPI.info.title + "\n" + IndexAPI.info.text);
-            if(IndexAPI.configure.isFileSetted == true && IndexAPIConfigurations.modifier != ""){
+            if(IndexAPI.configure.isConfigurationFileSetted == true && IndexAPIConfigurations.modifier != ""){
                 alert("Info:\nThis version of IndexAPI has been modified (in our configuration file).\nModifier: " + IndexAPIConfigurations.modifier);
             };
         },
@@ -220,8 +288,15 @@ const IndexAPI = {
                 favicon.change(newIcon);
             },
             url: function(iconUrl){
-                favicon.change("https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=16&url=" + iconUrl);
-            }
+                favicon.change("https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=16&url=http://" + iconUrl);
+            },
+        },
+        tag: {
+            set: function(id, newText){
+                var element;
+                element = document.getElementById(id);
+                element.innerHTML = newText;
+            },
         },
     },
     license: {
@@ -241,18 +316,22 @@ const IndexAPI = {
                 IndexAPI.log.error("'allowedDomains' is not correctly set!");
             };
         },
-        //ALPHA ; Don't use!
-        licenseKeys: {
-            $74543253679257248329: true
-        },
         key: function(key){
-            var path = "this.licenseKeys.$" + key;
-            if(path){
-                swal("True!")
+            if(IndexAPI.configure.isConfigurationFileSetted == true){
+                for(var i = 0;i < IndexAPIConfigurations.licenseKeys.length; i++){
+                    if(IndexAPIConfigurations.licenseKeys[i].id == key){
+                        if(IndexAPIConfigurations.licenseKeys[i].rank != undefined && IndexAPIConfigurations.licenseKeys[i].rank == "admin"){
+                            return "admin";
+                        }else{
+                            return true;
+                        }
+                    }
+                };
+                return false;
             }else{
-                swal("False!")
+                IndexAPI.log.error("A configuration file is needed for this command! Please add it with this command: IndexAPI.configure.file([PATH TO YOUR FILE])")
+                return "error";
             }
         }
-        //ALPHA END
     }
 }

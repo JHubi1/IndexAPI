@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <title>JH-Web IndexAPI</title>
         <script src="indexapi.js"></script>
-        <script>IndexAPI.configure.file("configurations.js");</script>
         <style>
             body {
                 font-family: Arial, Helvetica, sans-serif;
@@ -12,15 +11,28 @@
             .alpha, .beta {
                 border-style: dotted;
                 border-color: lightcoral;
+                border-radius: 5px;
                 color: darkgrey;
+            }
+            #console {
+                height: 500px;
+                width: 100%;
             }
             #console-test {
                 color: lightgrey;
             }
+            #group {
+                border-style: solid;
+                border-color: lightgrey;
+                border-radius: 5px;
+            }
         </style>
     </head>
     <body>
-        <h1>IndexAPI > Demo-Site</h1>
+        <script>
+            var licenseInput;
+        </script>
+        <h1 id="heading">IndexAPI > Demo-Site</h1>
         <ol>
             <!-- <li><button onclick="IndexAPI.('A simple test text!')">Command: IndexAPI.</button></li> -->
             <li><button onclick="IndexAPI.log.info('A simple test text!')">Command: IndexAPI.log.info()</button></li>
@@ -32,22 +44,43 @@
             <li><button onclick="IndexAPI.info.printFine('A simple test text!')">Command: IndexAPI.info.printFine()</button></li>
             <li><button onclick="IndexAPI.lockSite.run('A simple test text!')">Command: IndexAPI.lockSite.run()</button> (You have to close your browser or the website to access again!)</li>
             <li><button onclick="IndexAPI.lockSite.password('12345')">Command: IndexAPI.lockSite.password()</button> (The example password is: 12345)</li>
-            <li><button onclick="IndexAPI.site.title.set('A simple test text!'); swal('Complete!', 'There is now a new title in the title bar!', 'success')">Command: IndexAPI.site.title.set()</button></li>
-            <li><button onclick="IndexAPI.site.icon.set('google_favicon.ico'); swal('Complete!', 'In the title bar is now (actually) an icon!', 'success')">Command: IndexAPI.site.icon.set()</button></li>
-            <li><button onclick="IndexAPI.site.icon.url('http://wikipedia.org/'); swal('Complete!', 'In the title bar is now (actually) an icon!', 'success')">Command: IndexAPI.site.icon.url()</button></li>
+            <li><button onclick="IndexAPI.site.title.set('A simple test text!'); alert('Complete! There is now a new title in the title bar!')">Command: IndexAPI.site.title.set()</button></li>
+            <li><button onclick="IndexAPI.site.icon.set('google_favicon.ico'); alert('Complete! In the title bar is now (actually) an icon!')">Command: IndexAPI.site.icon.set()</button></li>
+            <li><button onclick="IndexAPI.site.icon.url('wikipedia.org'); alert('Complete! In the title bar is now (actually) an icon!')">Command: IndexAPI.site.icon.url()</button></li>
+            <li><button onclick="IndexAPI.site.tag.set('heading', 'A simple test text!')">Command: IndexAPI.site.tag.set()</button></li>
             <li><button onclick="IndexAPI.license.domain(['jh-web.xyz', 'github.com', 'githubusercontent.com'])">Command: IndexAPI.license.domain([])</button></li>
-            <li class="alpha"><button onclick="IndexAPI.license.key('74543253679257248329')">Command: IndexAPI.license.key()</button> (//ALPHA ; DOES NOT WORK!)</li>
+            <li><button onclick="licenseInput = prompt('Enter the license key you want to test'); alert('The license key is: ' + licenseInput.toString())" id="license_button">Command: IndexAPI.license.key()</button></li>
+            <div id="group">
+                <li><button onclick="IndexAPI.console.add('console'); document.getElementById('console_additem').removeAttribute('disabled')">Command: IndexAPI.console.add()</button></li>
+                <li><button onclick="IndexAPI.console.addItem('A simple test text!')" disabled id="console_additem">Command: IndexAPI.console.addItem()</button></li>
+            </div>
+            <div id="group">
+                <li><button onclick="IndexAPI.plugins.configure.activate('82867'); document.getElementById('plugins_configure_activate').removeAttribute('disabled')">Command: IndexAPI.plugins.configure.activate()</button></li>
+                <li><button onclick="pluginsConfigureActivate()" disabled id="plugins_configure_activate">Command: pluginsConfigureActivate()</button> (No function of the IndexAPI! Only for testing!)</li>
+            </div>
         </ol>
+        <br>
         Console:
         <div id="console">
-            <script>
-                function onLoad(){
-                    IndexAPI.console.add("console");
-                    //IndexAPI.console.addItem("Test", "console-test");
-                    //IndexAPI.console.addItemIndexAPI("Test");
-                }
-            </script>
+            <p id="console_errortext">Nothing here... &#128532</p>
         </div>
         <p></p>
+        <script>
+            IndexAPI.configure.file("configurations.js");
+            IndexAPI.plugins.configure.path("https://jh-web.xyz/api/v2/index-api/plugins");
+            function onLoad(){
+                if(IndexAPI.configure.isConfigurationFileSetted != true){
+                    var licenseButton = document.getElementById("license_button");
+                    licenseButton.setAttribute("disabled", "disabled");
+                    var message = "Demopage: The configuration file is not set! Please contact the administrator if the problem persists longer!";
+                    licenseButton.setAttribute("title", message);
+                    IndexAPI.log.error(message);
+                }
+            }
+            //Button functions
+            function pluginsConfigureActivate(){
+                return PermissionAPI.function();
+            }
+        </script>
     </body>
 </html>
