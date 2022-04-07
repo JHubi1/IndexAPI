@@ -1,6 +1,6 @@
 ## Welcome to IndexAPI
 
-You can include this script in any of your websites. just use for it: (But browsers like Chrome block that)
+You can include this script in any of your websites. just use for it:
 ```markdown
 <script src="https://jhubi1.github.io/IndexAPI/indexapi.js"></script>
 ```
